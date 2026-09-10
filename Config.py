@@ -1,0 +1,1 @@
+print("Modulo encargado del manejo del archivo de configuracion de usuario, usando json")

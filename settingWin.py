@@ -1,0 +1,1 @@
+print("Ventana de setting con su interfaz (customtinker)")

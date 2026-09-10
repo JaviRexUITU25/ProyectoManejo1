@@ -1,0 +1,1 @@
+print("Este sera los textos segun el idioma configurado en el sistema de la persona (esta muy cheto esto xd)")
