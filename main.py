@@ -1,1 +1,8 @@
-print("Este sera el archivo main donde junte los otros 3")
+import os
+import sys
+import customtkinter as ctk
+from tkinter import Menu, messagebox
+
+import config_manager
+from settingWin import SettingsWin
+from i18n import t
