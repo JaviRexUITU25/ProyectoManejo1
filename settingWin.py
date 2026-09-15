@@ -94,3 +94,72 @@ def _construir_ui(self):
                     command=self._elegir_color_letra).pack(side="left")
 
     # Foto De perfil
+    ctk.CTkLabel(contenedor, text=t(self.idioma, "settings_foto"),
+                         anchor="w", font=fuente_label).pack(fill="x", **pad_titulo)
+    frame_foto = ctk.CTkFrame(contenedor, fg_color="transparent")
+    frame_foto.pack(fill="x", padx=22, pady=(0, 14))
+    self.lbl_foto = ctk.CTkLabel(frame_foto, text=self._nombre_archivo_foto(), anchor="w")
+    self.lbl_foto.pack(side="left", fill="x", expand=True)
+    ctk.CTkButton(frame_foto, text=t(self.idioma, "settings_elegir_foto"),
+                    width=130, command=self._elegir_foto).pack(side="right", padx=(6, 0))
+
+    # --- botones inferiores (fuera del scroll, siempre visibles) ---
+    frame_botones = ctk.CTkFrame(self, fg_color="transparent")
+    frame_botones.pack(fill="x", padx=22, pady=(0, 16))
+    ctk.CTkButton(frame_botones, text=t(self.idioma, "settings_cancelar"),
+                    fg_color="#7f8c8d", hover_color="#616a6b",
+                    command=self.destroy).pack(side="right", padx=(8, 0))
+    ctk.CTkButton(frame_botones, text=t(self.idioma, "settings_guardar"),
+                    command=self._guardar).pack(side="right")
+
+    def _nombre_archivo_foto(self):
+        if self._foto_actual:
+            return os.path.basename(self._foto_actual)
+        return t(self.idioma, "sin foto")
+
+    def _ajustar_fuente(self, delta):
+        try:
+            valor = int(self.entry_fuente.get().strip())
+        except ValueError:
+            valor = 12
+            valor = max(6, min(72, valor + delta))
+            self.entry_fuente.delete(0, "end")
+            self.entry_fuente.insert(0, str(valor))
+
+    def _elegir_color_menu(self):
+        color = colorchooser.askcolor(color=self._color_letra_actual,
+                                      tittle=t(self.idioma, "settings_color_letra"))
+        if color and color[1]:
+            self._color_letra_actual = color[1]
+            self.preview_letra.configure(fg_color=self._color_letra_actual)
+
+    def _elegir_foto(self):
+        ruta = filedialog.askopenfilename(
+            tittle=t(self.idioma, "settings_elegir_foto"),
+            filetypes=[("Imagenes", "*.png *.jpg *.jpeg *.gif *.bmp *.webp"),
+                       ("Todos los archivos", "*.*")]
+        )
+        if ruta:
+            self._foto_actual = ruta
+            self.lbl_foto.configure(text=self._nombre_archivo_foto())
+
+    def _guardar(self):
+        try:
+            tamaño = int(self.entry_fuente.get().strip())
+            if tamaño <=0:
+                raise ValueError
+        except ValueError:
+            messagebox.showwarning(t(self.idioma, "aviso_titulo"),
+                                   t(self.idioma, "tamaño_invalido"))
+            return
+        nuevo_config = {
+            "nombre_usuario": self.entry_nombre.get().strip() or "Usuario",
+            "tema_interfaz": self.tema_var.get(),
+            "idioma": self.idioma_var.get(),
+            "tamaño_fuente": tamaño,
+            "color_menu": self._color_menu_actual,
+            "color_letra": self._color_letra_actual,
+            "foto_perfil": self._foto_actual,
+        }
+        self.on_guardar(nuevo_config, self)
+        
