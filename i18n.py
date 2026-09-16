@@ -20,8 +20,7 @@ TEXTS = {
             "ver_zoom_menos": "Alejar (Zoom -)",
             "ver_barra_estado": "Mostrar barra de estado",
             "simulado_titulo": "Función simulada",
-            "simulado_msg": "Esta opción es solo demostrativa. El enunciado no exige "
-                             "funcionalidad real para estos submenús.",
+            "simulado_msg": "Esta opcion no está disponible pibe",
             "bienvenida": "¡Bienvenido/a, {nombre}!",
             "resumen_titulo": "Configuración actual",
             "resumen_tema": "Tema",
@@ -68,8 +67,7 @@ TEXTS = {
             "ver_zoom_menos": "Zoom out",
             "ver_barra_estado": "Show status bar",
             "simulado_titulo": "Simulated feature",
-            "simulado_msg": "This option is for demonstration only. The assignment does "
-                             "not require real functionality for these submenus.",
+            "simulado_msg": "This option is unable pibe.",
             "bienvenida": "Welcome, {nombre}!",
             "resumen_titulo": "Current configuration",
             "resumen_tema": "Theme",
