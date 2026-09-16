@@ -64,4 +64,14 @@ def sin_permisos():
             print("En windows, chmod no revoca lectura real")
     finally:
         os.chmod(cm.CONFIG_FILE, stat.S_IWRITE | stat.S_IREAD)
-        
+
+
+def respaldo_y_escritura_segura():
+    pass
+
+if __name__ == "__main__":
+    archivo_ausente()
+    archivo_corrupto()
+    sin_permisos()
+    respaldo_y_escritura_segura()
+    _separador("Pruebas finalizadas")
