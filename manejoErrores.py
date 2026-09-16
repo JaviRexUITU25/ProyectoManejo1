@@ -67,7 +67,28 @@ def sin_permisos():
 
 
 def respaldo_y_escritura_segura():
-    pass
+    _separador("Caso 4: escritura segura + respaldo .bak")
+    _limpiar()
+
+    primero = cm.DEFAULT_CONFIG.copy()
+    primero["nombre_usuario"] = "Usuario Pepe Reina"
+    cm.save_config(primero)
+    print("Primer guardado ->", json.dumps(primero, ensure_ascii=False))
+
+    segundo = primero.copy()
+    segundo["nombre_usuario"] = "Jose Lopez"
+    resultado = cm.save_config(segundo)
+    print("Segundo guardado -> ", resultado.status, "|", resultado.message)
+
+    with open(cm.BACKUP_FILE, "r", encoding="uf-8") as f:
+        respado = json.load(f)
+    print("Contenido de config.bak: ")
+    print(json.dumps(respado, ensure_ascii=False, indent=2))
+
+    assert respado["nombre_usuario"] == "Usuario Pepe Reina"
+    assert not os.path.exists(cm.TEMP_FILE), "No debe quedar ninguna configuracion huerfano"
+    print("config.bak conserva la version anterior; no quedo ningun archivo huerfano")
+    print("'Pepe Reina' / 'Jose Lopez' se preservaron correctamente en UTF-8.")
 
 if __name__ == "__main__":
     archivo_ausente()
