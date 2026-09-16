@@ -111,5 +111,26 @@ class Aplicacion(ctk.CTk):
             self.destroy()
 
         # SETTINGS (ESTO DEBE SER FUNCIONAL)
+        def _abrir_settings(self):
+            self._settings_win = SettingsWin(self, self.config, on_guardar=self._guardar)
 
-        
+        def _guardar(self, nuevo_config, ventana):
+            resultado = config_manager.save_config(nuevo_config)
+
+            if resultado.ok:
+                self.config = resultado.data
+                self.idioma = self.config.get("idioma", "es-ES")
+                self._aplicar_configuraciion()
+                self._reconstruir_textos_menu()
+                messagebox.showinfo(t(self.idioma, "aviso_titulo"),
+                                    t(self.idioma, "settings_guardado"))
+                ventana.destroy()
+            else:
+                # Por si no guarda ijjijia
+                messagebox.showerror(t(self.idioma, "aviso_titulo"),
+                                     t(self.idioma, "settings_guardado_error",
+                                       detalle=resultado.message))
+
+    
+
+
