@@ -4,7 +4,7 @@ import customtkinter as ctk
 from tkinter import Menu, messagebox
 
 import Config
-from settingWin import SettingsWin
+from settingWin import SettingsWindow
 from i18n import t
 
 try:
