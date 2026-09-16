@@ -36,7 +36,7 @@ def archivo_corrupto():
     print(f"Estado = {resultado.status}")
     print(f"Mensaje = {resultado.message}")
     print(f"Datos = {resultado.data}")
-    assert resultado.status in ("corrupto", "corrupto recuperado")
+    assert resultado.status in ("corrupt", "corrupt_recovered")
     print("Archivo corrupto detectado")
 
 def sin_permisos():
@@ -57,7 +57,7 @@ def sin_permisos():
             print("Se ejecuto como admin")
             print("Ejecuta este script con un usuario normal")
         elif os.name != "nt":
-            assert resultado.status == "Permiso denegado"
+            assert resultado.status == "permission_denied"
             print("Sin permisos de lectura")
 
         else:
@@ -80,13 +80,13 @@ def respaldo_y_escritura_segura():
     resultado = cm.save_config(segundo)
     print("Segundo guardado -> ", resultado.status, "|", resultado.message)
 
-    with open(cm.BACKUP_FILE, "r", encoding="uf-8") as f:
-        respado = json.load(f)
+    with open(cm.BACKUP_FILE, "r", encoding="utf-8") as f:
+        respaldo = json.load(f)
     print("Contenido de config.bak: ")
-    print(json.dumps(respado, ensure_ascii=False, indent=2))
+    print(json.dumps(respaldo, ensure_ascii=False, indent=2))
 
-    assert respado["nombre_usuario"] == "Usuario Pepe Reina"
-    assert not os.path.exists(cm.TEMP_FILE), "No debe quedar ninguna configuracion huerfano"
+    assert respaldo["nombre_usuario"] == "Usuario Pepe Reina"
+    assert not os.path.exists(cm.TEMP_FILE), "No debe quedar ninguna configuracion huerfana"
     print("config.bak conserva la version anterior; no quedo ningun archivo huerfano")
     print("'Pepe Reina' / 'Jose Lopez' se preservaron correctamente en UTF-8.")
 
