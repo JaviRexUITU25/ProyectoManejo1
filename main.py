@@ -3,7 +3,7 @@ import sys
 import customtkinter as ctk
 from tkinter import Menu, messagebox
 
-import config_manager
+import Config
 from settingWin import SettingsWin
 from i18n import t
 
@@ -23,12 +23,12 @@ class Aplicacion(ctk.CTk):
         # Carga inicial: si el archivo no existe o esta corrupto
         # config_manager agrega valores por defecto automaticamente
         # ----------------------------
-        resultado_carga = config_manager.load_config()
+        resultado_carga = Config.load_config()
         self.config = resultado_carga.data
         self.idioma = self.config.get("idioma", "es-ES")
         self._imagen_perfil_ctk = None
 
-        self.tittle(t(self.idioma, "app_titulo"))
+        self.title(t(self.idioma, "app_title"))
         self.geometry("900x580")
         self.minsize(700, 480)
 
