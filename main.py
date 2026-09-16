@@ -192,4 +192,33 @@ class Aplicacion(ctk.CTk):
                 img = Image.open(ruta).convert("RGB")
                 img.thumbnail((112,112))
                 self._imagen_perfil_ctk = ctk.CTkImage(light_image=img, dar_image=img, size=img.size)
-                
+                self.lbl_avatar.configure(image=self._imagen_perfil_ctk,text="")
+                return
+            except Exception:
+                pass
+        self._imagen_perfil_ctk = None
+        self.lbl_avatar.configure(image=None, text="👤", font=ctk.CTkFont(size=52))
+
+
+
+#Aplicar la configuracion a la interfaz
+
+    def _aplicar_configuracion(self):
+        modo = "Dark" if self.config.get("tema_interfaz") == "oscuro" else "Light"
+        ctk.set_appearence_mode(modo)
+
+        color_menu = self.config.get("color_menu", "#2C3E50")
+        color_letra = self.config.get("color_letra", "#FFFFFF")
+        tamaño = self.config.get("tamaño_fuente", 12)
+
+        self.frame_menu.configure(fg_color=color_menu)
+        for btn in self.botones_menu.values():
+            btn.configure(text_color=color_letra, font=ctk.CTkFont(size=max(tamaño - 1,8)))
+
+        self.lbl_bienvenida.configure(font=ctk.CTkFont(size=tamaño + 8, weight="bold"))
+        for fila in self.filas_resumen.values():
+            fila.configure(font=ctk.CTkFont(size=tamaño))
+
+        self._cargar_avatar()
+        self._actualizar_resumen()
+
