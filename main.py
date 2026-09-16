@@ -222,3 +222,15 @@ class Aplicacion(ctk.CTk):
         self._cargar_avatar()
         self._actualizar_resumen()
 
+def main():
+    try:
+        app = Aplicacion()
+        app.mainloop()
+    except Exception as e:
+        try:
+            messagebox.showerror("Error: ", f"Ocurrio un error inesperado: \n{e}")
+        except Exception:
+            print(f"Error ocurrido: {e}", file=sys.stderr)
+
+if __name__ == "__main__":
+    main()
