@@ -67,7 +67,7 @@ TEXTS = {
             "ver_zoom_menos": "Zoom out",
             "ver_barra_estado": "Show status bar",
             "simulado_titulo": "Simulated feature",
-            "simulado_msg": "This option is unable pibe.",
+            "simulado_msg": "This option is not available",
             "bienvenida": "Welcome, {nombre}!",
             "resumen_titulo": "Current configuration",
             "resumen_tema": "Theme",
