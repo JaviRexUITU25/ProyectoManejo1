@@ -131,6 +131,65 @@ class Aplicacion(ctk.CTk):
                                      t(self.idioma, "settings_guardado_error",
                                        detalle=resultado.message))
 
-    
+    # Contenido principal
+    def _consrtuir_contenido(self):
+        self.frame_contenido = ctk.CTkFrame(self, corner_radius=0, fg_color="transparent")
+        self.frame_contenido.pack(fill="both", expand=True, padx=30, pady=26)
 
+        self.lbl_avatar = ctk.CTkLabel(self.frame_contenido, text="", width=112, height=112)
+        self.lbl_avatar.pack(pady=(6,14))
 
+        self.lbl_bienvenida = ctk.CTkLabel(self.frame_contenido, text="")
+        self.lbl_bienvenida.pack(pady=(0,20))
+
+        self.tarjeta = ctk.CTkFrame(self.frame_contenido, corner_radius = 14)
+        self.tarjeta.pack(fill="x", padx=60)
+
+        self.lbl_resumen_titulo = ctk.CTkLabel(self.tarjeta, text="",
+                                               font=ctk.CTkFont(size=15, weight="bold"))
+        self.lbl_resumen_titulo.pack(anchor="w", padx=22, pady=(18,8))
+
+        self.filas_resumen = {}
+        claves_resumen = ("resumen_tema", "resumen_idioma", "resumen_fuente",
+                          "resumen_color_menu", "resumen_color_letra")
+        for clave in claves_resumen:
+            fila = ctk.CTkLabel(self.tarjeta, text="", anchor="w", justify="left")
+            fila.pack(anchor="w", padx=22, pady=3)
+            self.filas_resumen[clave] = fila
+        ctk.CTkLabel(self.tarjeta, text= "").pack(pady=8)
+
+    def _recontruir_textos_menu(self):
+        for clave, btn in self.botones_menu.items():
+            btn.configure(text=t(self.idioma, clave))
+        self.tittle(t(self.idioma, "titulo_app"))
+
+    def _actualizar_resumen(self):
+        nombre = self.config.get("nombre_usuario", "")
+        self.lbl_bienvenida.configure(text=t(self.idioma, "binevenida", nombre=nombre))
+        self.lbl_resumen_titulo.configure(text=t(self.idioma, "resumen_titulo"))
+
+        tema = self.config.get("tema_interfaz", "claro")
+        idioma_cfg = self.config.get("idioma", "es-ES")
+        fuente = self.config.get("tamaño_fuente", 12)
+        color_menu = self.config.get("color_menu", "#2C3E50")
+        color_letra = self.config.get("color_letra", "#FFFFFF")
+
+        self.filas_resumen["resumen_tema"].configure(
+            text=f"{t(self.idioma, 'resumen_tema')}: {tema.capitalize()}")
+        self.filas_resumen["resumen_idioma"].configure(
+            text=f"{t(self.idioma, 'resumen_idioma')}: {idioma_cfg}")
+        self.filas_resumen["resumen_fuente"].configure(
+            text=f"{t(self.idioma, 'resumen_fuente')}: {fuente} pt")
+        self.filas_resumen["resumen_color_menu"].configure(
+            text=f"{t(self.idioma, 'resumen_color_menu')}: {color_menu}")
+        self.filas_resumen["resumen_color_letra"].configure(
+            text=f"{t(self.idioma, 'resumen_color_letra')}: {color_letra}")
+
+    def _cargar_avatar(self):
+        ruta = self.config.get("foto_perfil", "")
+        if ruta and os.path.isfile(ruta) and PIL_DISPONIBLE:
+            try:
+                img = Image.open(ruta).convert("RGB")
+                img.thumbnail((112,112))
+                self._imagen_perfil_ctk = ctk.CTkImage(light_image=img, dar_image=img, size=img.size)
+                
