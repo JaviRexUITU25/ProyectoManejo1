@@ -24,13 +24,13 @@ class ConfigResult:
         self.data = data
         self.status = status
         self.message = message
+        
     @property
     def ok(self):
         return self.status == "ok"
 
     def __repr__(self):
         return f"ConfigResult(status={self.status!r}, message={self.message!r})"
-
 
 def _validar_y_completar(data):
     if not isinstance(data, dict):
@@ -48,7 +48,7 @@ def _validar_y_completar(data):
     except (ValueError, TypeError):
         config["tamaño_fuente"] = DEFAULT_CONFIG["tamaño_fuente"]
 
-    if config.get("tema_intefaz") not in ("claro", "oscuro"):
+    if config.get("tema_interfaz") not in ("claro", "oscuro"):
         config["tema_interfaz"] = DEFAULT_CONFIG["tema_interfaz"]
 
     if config.get("idioma") not in ("es-ES", "en-US"):
@@ -75,6 +75,7 @@ def _intentar_cargar_backup():
         return _validar_y_completar(data)
     except (json.JSONDecodeError, ValueError, UnicodeDecodeError, OSError, PermissionError):
         return None
+
 def load_config():
     if not os.path.exists(CONFIG_FILE):
         return ConfigResult(
@@ -144,5 +145,3 @@ def _limpiar_temporal():
             os.remove(TEMP_FILE)
     except OSError:
         pass
-
-    
